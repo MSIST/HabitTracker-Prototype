@@ -2,35 +2,31 @@
 import matplotlib.pyplot as plt  # For making graphs
 from datetime import datetime, timedelta  # For handling dates
 
-# A dictionary to store your habits and their completion dates
+# Dictionary stores both habits and dates
 habits = {}
-
 
 # Make sure the habits file exists
 def init_file():
     try:
-        with open("habits.txt", "x"):  # 'x' creates the file if it doesn't exist
+        with open("habits.txt", "x"):
             pass
     except FileExistsError:
-        pass  # If the file already exists, we do nothing
+        pass  # If file already exists, do nothing
 
-
-# Load habits and their data from the file
+# Load habits and their data from file
 def load_habits():
     with open("habits.txt", "r") as file:
         for line in file:
             habit, dates = line.strip().split(" | ")
             habits[habit] = dates.split(", ") if dates else []  # Split dates into a list
 
-
-# Save current habits and their data to the file
+# Save habits and their data to file
 def save_habits():
     with open("habits.txt", "w") as file:
         for habit, dates in habits.items():
             file.write(f"{habit} | {', '.join(dates)}\n")
 
-
-# Add a new habit to the tracker
+# Add new habit to the tracker
 def add_habit():
     habit = input("What habit would you like to track? ")
     if habit not in habits:
@@ -39,7 +35,6 @@ def add_habit():
         print(f'Great! You are now tracking "{habit}".')
     else:
         print(f'You are already tracking "{habit}".')
-
 
 # Mark a habit as completed
 def complete_habit(habit, date_str=None):
@@ -65,8 +60,7 @@ def complete_habit(habit, date_str=None):
     else:
         print(f'You already marked "{habit}" as done on {date_str}.')
 
-
-# Show all tracked habits and their progress
+# Show tracked habits and their progress
 def view_habits():
     if not habits:
         print("You haven’t started tracking any habits yet.")
@@ -75,8 +69,7 @@ def view_habits():
         for habit, dates in habits.items():
             print(f"- {habit}: {', '.join(dates) if dates else 'No progress yet'}")
 
-
-# Create a simple progress graph
+# Create progress graph
 def plot_habit(habit_name):
     if habit_name not in habits:
         print(f'Habit "{habit_name}" isn’t being tracked.')
@@ -87,7 +80,7 @@ def plot_habit(habit_name):
         print(f'No progress data for "{habit_name}".')
         return
 
-    # Prepare cumulative data for plotting
+    # Prepare cumulative data
     dates.sort()
     start_date = dates[0]
     end_date = dates[-1]
@@ -114,8 +107,7 @@ def plot_habit(habit_name):
     plt.legend()
     plt.show()
 
-
-# Main menu for interacting with the habit tracker
+# Terminal Menu
 def main_menu():
     init_file()
     load_habits()
@@ -145,7 +137,6 @@ def main_menu():
             break
         else:
             print("That’s not a valid option. Try again.")
-
 
 # Start the program
 main_menu()
